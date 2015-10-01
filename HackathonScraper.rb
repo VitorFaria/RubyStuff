@@ -116,7 +116,7 @@ while keepLoop
 	    		f.write(newtable)
 	    	end
 
-  			mailbool = system "echo 'Subject:NovaLicitacaoTesteHackathon\nExiste uma nova licitacao no sistema | ssmtp vitorfaria017@outlook.com"
+  			mailbool = system "echo 'Subject:NovaLicitacaoTesteHackathon\nExiste uma nova licitacao no sistema | ssmtp notmymail@outlook.com"
 	    	binding.pry
 	    end
 	end
