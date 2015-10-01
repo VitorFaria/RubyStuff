@@ -1,0 +1,8 @@
+{
+    "regiao": "mg",
+    "modalidade": "concorr.ncia",
+    "tipo": "pre.o",
+    "fase": "andamento",
+    "palavrasChave": ["cnsultas", "objeto"],
+    "palavrasExcluir": ["banheiro", "chuveiro"]
+}

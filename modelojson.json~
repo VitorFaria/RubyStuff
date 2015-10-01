@@ -1,0 +1,14 @@
+{
+    "regiao": ["todos", "mg", "sp", "rj"],
+    "modalidade": ["preg.o", "concorr.ncia", "tomada de pre.o", "convite", "concurso", "leil.o"],
+    "tipo": ["pre.o", "t.cnica", "t.cnica e pre.o", "lance", "oferta"],
+    "fase": ["conclu.do", "andamento"],
+    "palavrasChave": ["a", "b"],
+    "palavrasExcluir": ["c", "d"]
+}
+
+{
+    "regiao": "mg",
+    "modalidade": "preg.o",
+    ....
+}
