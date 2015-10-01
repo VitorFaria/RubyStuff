@@ -158,6 +158,7 @@ urllist.each do |iturl|
 	    	table["url"].push(result["url"])
 	    	table["nome"].push(result["nome"])
 	    	table["preco"].push(result["preco"])
+	    	table["data"].push(result["data"])
 	    	table["empresa"].push(empr)
 	    	table["regiao"].push(reg)
 	    	table["modalidade"].push(mod)
