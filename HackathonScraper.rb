@@ -76,7 +76,12 @@ while keepLoop
 
 		if j.zero? 
 			preco = $1 if page.text =~ /R\$ *([\d\.,]+)/i
+			if preco.nil? then preco = "not apply" end
 			nome = $1 if page.text.strip.delete("\n") =~ /edital +(.+)objeto/i 
+			if nome.nil? then nome = "not apply" end
+			#binding.pry
+			empresa = $1 if nome.strip =~ / (\w*)/i
+			if empresa.nil? then empresa = "not apply" end
 		end 
 
 		#binding.pry
@@ -117,9 +122,9 @@ while keepLoop
 		if !num.zero? then keepGoing = false end
 	end
 
-	binding.pry
+	#binding.pry
 
-	if true#keepGoing    MUDAR!!!!
+	if keepGoing    
 	    result = {
 	        "url" => testurl,
 	        "nome" => nome,
@@ -132,7 +137,7 @@ while keepLoop
 	    	table["empresa"].push(empr)
 	    	table["regiao"].push(reg)
 	    	table["modalidade"].push(mod)
-	    	table["tipo"].push(tipo)
+	    	table["tipo"].push(tip)
 	    	table["fase"].push(fas)
 
 	    	newtable = table.to_json
@@ -145,7 +150,7 @@ while keepLoop
 	    end
 	end
 
-	binding.pry
+	#binding.pry
 
 	regnum = 0
 	modnum = 0
