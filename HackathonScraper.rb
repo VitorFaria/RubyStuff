@@ -21,6 +21,8 @@ fas = "not apply"
 
 testurl = "http://www.fbb.org.br/portal/pages/publico/licitacoes/2008041/edital.pdf"
 
+urllist = ["http://www.fbb.org.br/portal/pages/publico/licitacoes/2008041/edital.pdf", "http://www.sebrae.com.br/Sebrae/Portal%20Sebrae/UFs/TO/Anexos/EDITAL%20-%20CONCORR%C3%8ANCIA%20008%202014%20REPUBLICA%C3%87%C3%83O.pdf", "http://www.sebrae.com.br/Sebrae/Portal%20Sebrae/UFs/TO/Anexos/EDITAL%20-%20CONCORR%C3%8ANCIA%20006.20141.pdf", "http://www.sebrae.com.br/Sebrae/Portal%20Sebrae/UFs/TO/Anexos/EDITAL%20-%20CONCORR%C3%8ANCIA%20006.20141.pdf"]
+
 jsonfile = File.read("exjson.json")
 jhash = JSON.parse(jsonfile)
 
@@ -54,11 +56,12 @@ agent = Mechanize.new
 
 keepLoop = true
 
-while keepLoop
+urllist.each do |iturl|
 
+	binding.pry
 	keepGoing = true
 
-	io     = open(testurl)
+	io     = open(iturl)#open(testurl)
 	reader = PDF::Reader.new(io)
 	testedital = reader
 
@@ -71,6 +74,7 @@ while keepLoop
 
 	for j in 0..1 #MUDAR!!!!!
 		#reader.pages.each do |page|
+		if j.equal? 1 then break end #MUDAR!!!!!!
 		puts j
 		page = reader.pages[j]
 
@@ -126,7 +130,7 @@ while keepLoop
 
 	if keepGoing    
 	    result = {
-	        "url" => testurl,
+	        "url" => iturl, #testurl,
 	        "nome" => nome,
 	        "preco" => preco
 	    }
