@@ -54,6 +54,7 @@ urllist.each do |iturl|
 
 	nome = "not apply"
 	preco = "not apply"
+	data = "not apply"
 
 	empr = "not apply"
 	reg = "not apply"
@@ -79,6 +80,11 @@ urllist.each do |iturl|
 		page = reader.pages[j]
 
 		if j.zero? 
+			data = $1 if page.text =~ /(\d\d\/\d\d)/
+			if data.nil? then data = "not apply" end
+
+			binding.pry
+
 			preco = $1 if page.text =~ /R\$ *([\d\.,]+)/i
 			if preco.nil? then preco = "not apply" end
 			
@@ -98,7 +104,7 @@ urllist.each do |iturl|
 				nome = "edital #{empr}"#$1 if page.text.strip.delete("\n") =~ /edital +(.+)objeto/i 
 			end
 
-			binding.pry
+			#binding.pry
 		end 
 
 		#binding.pry
@@ -145,7 +151,8 @@ urllist.each do |iturl|
 	    result = {
 	        "url" => iturl, #testurl,
 	        "nome" => nome,
-	        "preco" => preco
+	        "preco" => preco,
+	        "data" => data
 	    }
 	    if !table["url"].include?(result["url"])
 	    	table["url"].push(result["url"])
@@ -162,7 +169,7 @@ urllist.each do |iturl|
 	    		f.write(newtable)
 	    	end
 
-  			mailbool = system "echo 'Subject:NovaLicitacaoTesteHackathon\nExiste uma nova licitacao da #{empr} no sistema' | ssmtp notmymail@outlook.com"
+  			mailbool = system "echo 'Subject:NovaLicitacaoTesteHackathon\nExiste uma nova licitacao da #{empr} no sistema' | ssmtp juliocesargso@hotmail.com"
 	    	#binding.pry
 	    end
 	end
