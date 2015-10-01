@@ -10,15 +10,6 @@ require 'pdf-reader'
 require 'json'
 require 'net/smtp'
 
-nome = " "
-preco = " "
-
-empr = "not apply"
-reg = "not apply"
-mod = "not apply"
-tip = "not apply"
-fas = "not apply"
-
 testurl = "http://www.fbb.org.br/portal/pages/publico/licitacoes/2008041/edital.pdf"
 
 urllist = ["http://www.fbb.org.br/portal/pages/publico/licitacoes/2008041/edital.pdf", "http://www.sebrae.com.br/Sebrae/Portal%20Sebrae/UFs/TO/Anexos/EDITAL%20-%20CONCORR%C3%8ANCIA%20008%202014%20REPUBLICA%C3%87%C3%83O.pdf", "http://www.sebrae.com.br/Sebrae/Portal%20Sebrae/UFs/TO/Anexos/EDITAL%20-%20CONCORR%C3%8ANCIA%20006.20141.pdf", "http://www.sebrae.com.br/Sebrae/Portal%20Sebrae/UFs/TO/Anexos/EDITAL%20-%20CONCORR%C3%8ANCIA%20006.20141.pdf"]
@@ -54,12 +45,21 @@ agent = Mechanize.new
 
 #binding.pry
 
-keepLoop = true
+#keepLoop = true
 
 urllist.each do |iturl|
 
-	binding.pry
+	#binding.pry
 	keepGoing = true
+
+	nome = "not apply"
+	preco = "not apply"
+
+	empr = "not apply"
+	reg = "not apply"
+	mod = "not apply"
+	tip = "not apply"
+	fas = "not apply"
 
 	io     = open(iturl)#open(testurl)
 	reader = PDF::Reader.new(io)
@@ -81,11 +81,22 @@ urllist.each do |iturl|
 		if j.zero? 
 			preco = $1 if page.text =~ /R\$ *([\d\.,]+)/i
 			if preco.nil? then preco = "not apply" end
-			nome = $1 if page.text.strip.delete("\n") =~ /edital +(.+)objeto/i 
-			if nome.nil? then nome = "not apply" end
-			#binding.pry
-			empresa = $1 if nome.strip =~ / (\w*)/i
-			if empresa.nil? then empresa = "not apply" end
+			
+			if page.text.strip.delete("\n") =~ /sebrae/i 
+				empr = "sebrae"
+			elsif page.text.strip.delete("\n") =~ /fbb/i
+				empr = "fbb"
+			elsif empr.nil? 
+				empr = "not apply" 
+			end
+
+			if empr.eql?("not apply")
+				nome = "edital"
+			else
+				nome = "edital #{empr}"#$1 if page.text.strip.delete("\n") =~ /edital +(.+)objeto/i 
+			end
+
+			binding.pry
 		end 
 
 		#binding.pry
@@ -150,7 +161,7 @@ urllist.each do |iturl|
 	    	end
 
   			mailbool = system "echo 'Subject:NovaLicitacaoTesteHackathon\nExiste uma nova licitacao no sistema | ssmtp notmymail@outlook.com"
-	    	binding.pry
+	    	#binding.pry
 	    end
 	end
 
