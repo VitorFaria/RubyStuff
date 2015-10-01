@@ -12,6 +12,13 @@ require 'net/smtp'
 
 nome = " "
 preco = " "
+
+empr = "not apply"
+reg = "not apply"
+mod = "not apply"
+tip = "not apply"
+fas = "not apply"
+
 testurl = "http://www.fbb.org.br/portal/pages/publico/licitacoes/2008041/edital.pdf"
 
 jsonfile = File.read("exjson.json")
@@ -57,10 +64,10 @@ while keepLoop
 
 	#binding.pry
 
-	if jhash["regiao"].equal?("notaply") then regnum = regnum + 1 end
-	if jhash["modalidade"].equal?("notaply") then modnum = modnum + 1 end
-	if jhash["tipo"].equal?("notaply") then tiponum = tiponum + 1 end
-	if jhash["fase"].equal?("notaply") then fasenum = fasenum + 1 end
+	if jhash["regiao"].eql?("notapply") then regnum = regnum + 1 end
+	if jhash["modalidade"].eql?("notapply") then modnum = modnum + 1 end
+	if jhash["tipo"].eql?("notapply") then tiponum = tiponum + 1 end
+	if jhash["fase"].eql?("notapply") then fasenum = fasenum + 1 end
 
 	for j in 0..1 #MUDAR!!!!!
 		#reader.pages.each do |page|
@@ -72,12 +79,24 @@ while keepLoop
 			nome = $1 if page.text.strip.delete("\n") =~ /edital +(.+)objeto/i 
 		end 
 
-		binding.pry
+		#binding.pry
 
-		if (!jhash["regiao"].equal?("notaply") and page.text =~ /#{jhash["regiao"]}/i) then regnum = regnum + 1 end
-		if (!jhash["modalidade"].equal?("notaply") and page.text =~ /#{jhash["modalidade"]}/i) then modnum = modnum + 1 end
-		if (!jhash["tipo"].equal?("notaply") and page.text =~ /#{jhash["tipo"]}/i) then tiponum = tiponum + 1 end
-		if (!jhash["fase"].equal?("notaply") and page.text =~ /#{jhash["fase"]}/i) then fasenum = fasenum + 1 end
+		if (!jhash["regiao"].eql?("notapply") and page.text =~ /#{jhash["regiao"]}/i) 
+			regnum = regnum + 1
+			reg = jhash["regiao"]
+		end
+		if (!jhash["modalidade"].eql?("notapply") and page.text =~ /#{jhash["modalidade"]}/i) 
+			modnum = modnum + 1 
+			mod = jhash["modalidade"]
+		end
+		if (!jhash["tipo"].eql?("notapply") and page.text =~ /#{jhash["tipo"]}/i) 
+			tiponum = tiponum + 1 
+			tip = jhash["tipo"]
+		end
+		if (!jhash["fase"].eql?("notapply") and page.text =~ /#{jhash["fase"]}/i) 
+			fasenum = fasenum + 1 
+			fas = jhash["fase"]
+		end
 		i = 0
 		keyArray.each do |key|
 			if page.text =~ /#{key}/ then arrayZerosK[i] = arrayZerosK[i] + 1 end
@@ -95,7 +114,7 @@ while keepLoop
 		if num.zero? then keepGoing = false end
 	end
 	arrayZerosN.each do |num|
-		if num.zero? then keepGoing = false end
+		if !num.zero? then keepGoing = false end
 	end
 
 	binding.pry
@@ -110,6 +129,11 @@ while keepLoop
 	    	table["url"].push(result["url"])
 	    	table["nome"].push(result["nome"])
 	    	table["preco"].push(result["preco"])
+	    	table["empresa"].push(empr)
+	    	table["regiao"].push(reg)
+	    	table["modalidade"].push(mod)
+	    	table["tipo"].push(tipo)
+	    	table["fase"].push(fas)
 
 	    	newtable = table.to_json
 	    	File.open("tabelajson.json","w") do |f|
@@ -175,3 +199,5 @@ end
 
 	#puts firstpage.content
 #end
+
+#eloízio neves

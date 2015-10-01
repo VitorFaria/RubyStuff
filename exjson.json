@@ -1,8 +1,8 @@
 {
-    "regiao": "mg",
+    "regiao": "notapply",
     "modalidade": "concorr.ncia",
-    "tipo": "pre.o",
-    "fase": "andamento",
-    "palavrasChave": ["cnsultas", "objeto"],
+    "tipo": "notapply",
+    "fase": "notapply",
+    "palavrasChave": [" ", " "],
     "palavrasExcluir": ["banheiro", "chuveiro"]
 }
