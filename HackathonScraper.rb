@@ -12,7 +12,7 @@ require 'net/smtp'
 
 testurl = "http://www.fbb.org.br/portal/pages/publico/licitacoes/2008041/edital.pdf"
 
-urllist = ["http://www.fbb.org.br/portal/pages/publico/licitacoes/2008041/edital.pdf", "http://www.sebrae.com.br/Sebrae/Portal%20Sebrae/UFs/TO/Anexos/EDITAL%20-%20CONCORR%C3%8ANCIA%20008%202014%20REPUBLICA%C3%87%C3%83O.pdf", "http://www.sebrae.com.br/Sebrae/Portal%20Sebrae/UFs/TO/Anexos/EDITAL%20-%20CONCORR%C3%8ANCIA%20006.20141.pdf", "http://www.sebrae.com.br/Sebrae/Portal%20Sebrae/UFs/TO/Anexos/EDITAL%20-%20CONCORR%C3%8ANCIA%20006.20141.pdf"]
+urllist = ["http://www.fbb.org.br/portal/pages/publico/licitacoes/2008041/edital.pdf", "http://www.sebrae.com.br/Sebrae/Portal%20Sebrae/UFs/TO/Anexos/EDITAL%20-%20CONCORR%C3%8ANCIA%20008%202014%20REPUBLICA%C3%87%C3%83O.pdf", "http://www.sebrae.com.br/Sebrae/Portal%20Sebrae/UFs/TO/Anexos/EDITAL%20-%20CONCORR%C3%8ANCIA%20006.20141.pdf", "http://www.sebrae.com.br/Sebrae/Portal%20Sebrae/UFs/TO/Anexos/EDITAL%20-%20CONCORR%C3%8ANCIA%20006.20141.pdf","http://www.almg.gov.br/opencms/export/sites/default/acompanhe/licitacoes/concorrencia/pdfs/2009/concorrencia_2009_001.pdf"]
 
 jsonfile = File.read("exjson.json")
 jhash = JSON.parse(jsonfile)
@@ -86,6 +86,8 @@ urllist.each do |iturl|
 				empr = "sebrae"
 			elsif page.text.strip.delete("\n") =~ /fbb/i
 				empr = "fbb"
+			elsif page.text.strip.delete("\n") =~ /assembl.ia/i
+				empr = "assembléia legislativa"
 			elsif empr.nil? 
 				empr = "not apply" 
 			end
@@ -160,7 +162,7 @@ urllist.each do |iturl|
 	    		f.write(newtable)
 	    	end
 
-  			mailbool = system "echo 'Subject:NovaLicitacaoTesteHackathon\nExiste uma nova licitacao no sistema | ssmtp notmymail@outlook.com"
+  			mailbool = system "echo 'Subject:NovaLicitacaoTesteHackathon\nExiste uma nova licitacao da #{empr} no sistema' | ssmtp notmymail@outlook.com"
 	    	#binding.pry
 	    end
 	end
